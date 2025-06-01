@@ -1,12 +1,14 @@
 import React from 'react'
 import Header from '../Header/Header.jsx'
 
-function Home() {
+function Layout({children}) {
   return (
     <div>
       <Header />
+      {children}
+
     </div>
   )
 }
 
-export default Home
+export default Layout

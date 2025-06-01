@@ -1,13 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { IoSearchSharp } from "react-icons/io5";
-import { MdShoppingCartCheckout } from "react-icons/md";
+import { BsCart2 } from "react-icons/bs";
 import { GrLocation } from "react-icons/gr";
 import { VscThreeBars } from "react-icons/vsc";
 import headerCss from "./header.module.css";
-
+import { DataContext } from '../DataProvider/DataProvider';
+import { Link } from 'react-router-dom';
+import { auth } from '../../utilities/firebase';
+import { signOut } from 'firebase/auth';
 function Header() {
+    const [{basket,user}, dispatch]=useContext(DataContext)
+    const totalItem=basket?.reduce((amount,item)=>{
+        return item.amount+amount
+    }, 0)
   return (
-    <div>
+    <div className={headerCss.fixed}>
     <div className={headerCss.header_container}>
         <div className={headerCss.left_side}>
             <a  href="/">
@@ -47,33 +54,47 @@ function Header() {
                 </select>
                 </a>
             </div>
-             <a href="/">
+             <Link to={!user && "/auth"}>
             <div className={headerCss.sign}>
-               
-                <p>Hello, sign in</p>
-                <select>
-                <option>Account&Lists</option>
-                </select>
+                <div>
+                    {
+                        user?(
+                            <>
+                        <p>Hello, {user?.email?.split("@")[0]}</p>
+                        <span onClick={()=>signOut(auth)}>Sign Out</span>
+                            </>
+                    
+                    ):(
+                    <>
+                    <p>Hello, sign in</p>
+                          <span>Account&Lists</span>
+
+                          </>  
+                        )
+                        
+                    }
+
+                </div>
                 
             </div>
-            </a>
+            </Link>
             
-            <a href="/">
+            <Link to="/orders">
             <div>
                 
                 <p>Returns</p>
                 <span>&Orders</span>
                 
             </div>
-            </a>
+            </Link>
 
-            <a href="/">
+            <Link to="/cart">
             <div className={headerCss.cart}>
-                <MdShoppingCartCheckout  size={39}/>
-                <span>0</span>
+                <BsCart2  size={39}/>
+                <span>{totalItem}</span>
 
             </div>
-            </a>
+            </Link>
 
         </div>
       

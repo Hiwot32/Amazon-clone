@@ -6,6 +6,11 @@ a:hover{
     border:1px solid white;
     border-radius: 3px;
 }
+.fixed{
+    position:sticky;
+    top:0;
+    z-index:100;
+}
 .header_container{
     background-color: #131921;
     display: flex;
@@ -149,7 +154,6 @@ a:hover{
     display:flex;
     color: white;
     gap:25px;
-    margin-left:-20px;
     align-items: center;
     padding-top: 10px;
 }
